@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "url-shortening-api", "url-shortening-api\url-shortening-api.csproj", "{AECBB62F-3A33-4DA5-B899-FF212CA716ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AECBB62F-3A33-4DA5-B899-FF212CA716ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AECBB62F-3A33-4DA5-B899-FF212CA716ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AECBB62F-3A33-4DA5-B899-FF212CA716ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AECBB62F-3A33-4DA5-B899-FF212CA716ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6977AB49-BF27-45F1-B0F5-9CE5ABF143DA}
+	EndGlobalSection
+EndGlobal

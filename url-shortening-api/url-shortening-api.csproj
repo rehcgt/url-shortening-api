@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\design\desktop-active-states.jpg" />
+    <None Include="wwwroot\design\desktop-design.jpg" />
+    <None Include="wwwroot\design\desktop-preview.jpg" />
+    <None Include="wwwroot\design\mobile-active-states.jpg" />
+    <None Include="wwwroot\design\mobile-design.jpg" />
+    <None Include="wwwroot\design\mobile-navigation.jpg" />
+    <None Include="wwwroot\images\bg-boost-desktop.svg" />
+    <None Include="wwwroot\images\bg-boost-mobile.svg" />
+    <None Include="wwwroot\images\bg-shorten-desktop.svg" />
+    <None Include="wwwroot\images\bg-shorten-mobile.svg" />
+    <None Include="wwwroot\images\favicon-32x32.png" />
+    <None Include="wwwroot\images\icon-brand-recognition.svg" />
+    <None Include="wwwroot\images\icon-detailed-records.svg" />
+    <None Include="wwwroot\images\icon-facebook.svg" />
+    <None Include="wwwroot\images\icon-fully-customizable.svg" />
+    <None Include="wwwroot\images\icon-instagram.svg" />
+    <None Include="wwwroot\images\icon-pinterest.svg" />
+    <None Include="wwwroot\images\icon-twitter.svg" />
+    <None Include="wwwroot\images\illustration-working.svg" />
+    <None Include="wwwroot\images\logo.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
