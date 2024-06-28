@@ -1,3 +1,140 @@
 ﻿@page "/"
+@using System.Net.Http.Headers
+@using System.Text
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using BlazorToastify
+@inject ClipboardService ClipboardService
+@inject HttpClient Http
+@inject IToastService ToastService;
 
-<h1>Hello, world!</h1>
+<navbar class="flex justify-between">
+    <h2 class="mr-5 text-3xl font-bold">Shortly</h2>
+    <nav class="ml-4 flex font-bold m:w-[400px]">
+        <a href="/shorten" class="mr-4 text-grayish-violet hover:text-slate-900">Features</a>
+        <a href="/pricing" class="mr-4 text-grayish-violet hover:text-slate-900">Pricing</a>
+        <a href="/resources" class="text-grayish-violet hover:text-slate-900">Resources</a>
+    </nav>
+    <div class="ml-auto font-bold">
+        <a href="/login" class="text-grayish-violet hover:text-black">Login</a>
+        <a href="/signup" class="ml-4 rounded-full bg-grayish-violet px-4 py-2 text-white hover:bg-slate-900">Sign Up</a>
+    </div>
+</navbar>
+<section class="flex" style="margin-bottom: 48px;">
+    <div class="h-[500px] flex flex-col items-center justify-center">
+        <h1 class="text-center text-5xl font-bold">More than just shorter links</h1>
+        <p class="mt-4 text-center text-grayish-violet">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
+        <a href="/signup" class="mt-8 rounded-full bg-cyan px-6 py-3 text-white hover:bg-slate-900">Get Started</a>
+    </div>
+    <div>
+        <img src="/images/illustration-working.svg" alt="Illustration of a person working on a computer" class="w-full" />
+    </div>
+</section>
+<section class="flex flex-col">
+    <div class="-z-10 absolute left-0 min-h-96 w-screen bg-blue-300"></div>
+    <div class="z-10 flex w-full bg-dark-violet p-6" style="margin-top: -48px">
+        <input type="url" placeholder="Shorten a link here..." class="mx-4 flex-grow px-4" @bind="@urlToShorten" autofocus />
+        <button type="submit" class="ml-auto rounded-xl bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="ShortenLink">Shorten It!</button>
+    </div>    
+    <div class="z-10 min-h-96">
+    @foreach (var url in shortenedUrls)
+    {
+        <div class="flex w-full items-center rounded bg-white p-6">
+            <div class="flex-grow"><a href="@url.Url" target="_blank">@url.Url</a></div>
+            <div class="ml-auto">
+                <a class="mr-4 text-cyan" href="@url.shortUrl" target="_blank">@url.shortUrl</a>
+                <button class="ml-auto rounded bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="() => CopyUrl(url.shortUrl, url.Id)">
+                    @url.buttonText
+                </button>
+            </div>
+        </div>
+    }    
+    </div>
+</section>
+<section class="clear-both">
+    <div class="flex flex-col items-center">
+        <h2 class="text-4xl font-bold">Advanced Statistics</h2>
+        <p class="mt-4 text-center text-grayish-violet">Track how your links are performing across the web with our advanced statistics dashboard.</p>
+    </div>
+    <div class="flex justify-center">
+        <div class="flex flex-col items-center">
+            <img src="/images/icon-brand-recognition.svg" alt="Brand recognition icon" />
+            <h3 class="mt-4 text-2xl font-bold">Brand Recognition</h3>
+            <p class="mt-2 text-center text-grayish-violet">Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.</p>
+        </div>
+        <div class="flex flex-col items-center">
+            <img src="/images/icon-detailed-records.svg" alt="Detailed records icon" />
+            <h3 class="mt-4 text-2xl font-bold">Detailed Records</h3>
+            <p class="mt-2 text-center text-grayish-violet">Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions.</p>
+        </div>
+        <div class="flex flex-col items-center">
+            <img src="/images/icon-fully-customizable.svg" alt="Fully customizable icon" />
+            <h3 class="mt-4 text-2xl font-bold">Fully Customizable</h3>
+            <p class="mt-2 text-center text-grayish-violet">Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.</p>
+        </div>
+    </div>
+</section>
+<ToastContainer />
+
+@code {
+    private string urlToShorten = string.Empty;
+    private List<shortUrls> shortenedUrls = new List<shortUrls>();
+
+    private async Task ShortenLink()
+    {
+        var result = await ShortUrlAsync(urlToShorten);
+        if (result.StartsWith("Error"))
+        {
+            await ToastService.AddToastAsync(message: result, type: "error", animation: "fade", autoClose: 5000);
+        }
+    }
+
+    private async Task<string> ShortUrlAsync(string urlOriginal)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(urlOriginal))
+            {
+                throw new Exception("Please enter a URL to shorten");
+            }
+
+            if (!Uri.TryCreate(urlOriginal, UriKind.Absolute, out Uri uriResult) || (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
+            {
+                throw new Exception("Invalid URL");
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://smolurl.com/api/links");
+            request.Headers.Add("Accept", "application/json");
+            request.Content = new StringContent(JsonConvert.SerializeObject(new { url = urlOriginal }), Encoding.UTF8, "application/json");
+
+            var response = await Http.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var resultado = await response.Content.ReadAsStringAsync();
+            var json = JObject.Parse(resultado);
+            if (json != null && json.ContainsKey("data"))
+            {
+                var shortUrl = json["data"]["short_url"].ToString();
+                shortenedUrls.Add(new shortUrls
+                    {
+                        Id = shortenedUrls.Count,
+                        Url = urlOriginal,
+                        shortUrl = shortUrl
+                    });
+                urlToShorten = string.Empty;
+                return shortUrl;
+            }
+
+            throw new Exception("Invalid response from the server");
+        }
+        catch (Exception ex)
+        {
+            return $"Error: {ex.Message}";
+        }
+    }
+
+    private async Task CopyUrl(string url, int index)
+    {
+        await ClipboardService.WriteTextAsync(url);
+        shortenedUrls[index].buttonText = "Copied!";
+    }
+}
