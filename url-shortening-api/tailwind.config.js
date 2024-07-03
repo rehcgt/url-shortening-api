@@ -10,7 +10,14 @@ module.exports = {
                 "gray": "hsl(0, 0%, 75%)",
                 "grayish-violet": "hsl(257, 7%, 63%)",
                 "very-dark-blue": "hsl(255, 11%, 22%)",
-                "very-dark-violet": "hsl(260, 8%, 14%)"
+                "very-dark-violet": "hsl(260, 8%, 14%)",
+                "shorten-urls": "#EFF1F7",
+            },
+            backgroundImage: {
+                'shorten-desktop-pattern': "url('/images/bg-shorten-desktop.svg')",
+                'boost-desktop-texture': "url('/images/bg-boost-desktop.svg')",
+                'shorten-mobile-pattern': "url('/images/bg-shorten-mobile.svg')",
+                'boost-mobile-texture': "url('/images/bg-boost-mobile.svg')",
             }
         },
     },

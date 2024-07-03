@@ -31,3 +31,17 @@ body {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+@media screen and (min-width: 1024px) {
+    .shorten {
+        background: url("../images/bg-shorten-desktop.svg") repeat-x;
+        margin-top: -48px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .shorten {
+        background: url("../images/bg-shorten-mobile.svg") repeat-x;
+        margin-top: -48px;
+    }
+}

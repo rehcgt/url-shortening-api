@@ -10,7 +10,7 @@
 
 <navbar class="flex justify-between">
     <h2 class="mr-5 text-3xl font-bold">Shortly</h2>
-    <nav class="ml-4 flex font-bold m:w-[400px]">
+    <nav class="ml-4 flex items-center font-bold m:w-[400px]">
         <a href="/shorten" class="mr-4 text-grayish-violet hover:text-slate-900">Features</a>
         <a href="/pricing" class="mr-4 text-grayish-violet hover:text-slate-900">Pricing</a>
         <a href="/resources" class="text-grayish-violet hover:text-slate-900">Resources</a>
@@ -20,7 +20,7 @@
         <a href="/signup" class="ml-4 rounded-full bg-grayish-violet px-4 py-2 text-white hover:bg-slate-900">Sign Up</a>
     </div>
 </navbar>
-<section class="flex" style="margin-bottom: 48px;">
+<section class="mb-[72px] flex">
     <div class="h-[500px] flex flex-col items-center justify-center">
         <h1 class="text-center text-5xl font-bold">More than just shorter links</h1>
         <p class="mt-4 text-center text-grayish-violet">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
@@ -31,47 +31,66 @@
     </div>
 </section>
 <section class="flex flex-col">
-    <div class="-z-10 absolute left-0 min-h-96 w-screen bg-blue-300"></div>
-    <div class="z-10 flex w-full bg-dark-violet p-6" style="margin-top: -48px">
-        <input type="url" placeholder="Shorten a link here..." class="mx-4 flex-grow px-4" @bind="@urlToShorten" autofocus />
+    <div class="-z-10 absolute left-0 h-full w-screen overflow-x-hidden bg-shorten-urls"></div>
+    <div class="z-10 -mt-[72px] flex w-full rounded-xl bg-dark-violet bg-cover bg-no-repeat p-12 md:bg-shorten-desktop-pattern sm:bg-shorten-mobile-pattern">
+        <input type="url" placeholder="Shorten a link here..." class="mx-4 flex-grow rounded px-4" @bind="@urlToShorten" autofocus />
         <button type="submit" class="ml-auto rounded-xl bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="ShortenLink">Shorten It!</button>
-    </div>    
-    <div class="z-10 min-h-96">
-    @foreach (var url in shortenedUrls)
-    {
-        <div class="flex w-full items-center rounded bg-white p-6">
-            <div class="flex-grow"><a href="@url.Url" target="_blank">@url.Url</a></div>
-            <div class="ml-auto">
-                <a class="mr-4 text-cyan" href="@url.shortUrl" target="_blank">@url.shortUrl</a>
-                <button class="ml-auto rounded bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="() => CopyUrl(url.shortUrl, url.Id)">
-                    @url.buttonText
-                </button>
-            </div>
-        </div>
-    }    
     </div>
-</section>
-<section class="clear-both">
-    <div class="flex flex-col items-center">
+    <div class="z-10 mb-4 mt-4">
+        @foreach (var url in shortenedUrls)
+        {
+            <div class="flex w-full items-center rounded bg-white p-6">
+                <div class="flex-grow"><a href="@url.Url" target="_blank">@url.Url</a></div>
+                <div class="ml-auto">
+                    <a class="mr-4 text-cyan" href="@url.shortUrl" target="_blank">@url.shortUrl</a>
+                    <button class="ml-auto rounded bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="() => CopyUrl(url.shortUrl, url.Id)">
+                        @url.buttonText
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="flex h-48 flex-col items-center justify-center">
         <h2 class="text-4xl font-bold">Advanced Statistics</h2>
         <p class="mt-4 text-center text-grayish-violet">Track how your links are performing across the web with our advanced statistics dashboard.</p>
     </div>
-    <div class="flex justify-center">
-        <div class="flex flex-col items-center">
-            <img src="/images/icon-brand-recognition.svg" alt="Brand recognition icon" />
-            <h3 class="mt-4 text-2xl font-bold">Brand Recognition</h3>
-            <p class="mt-2 text-center text-grayish-violet">Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.</p>
+    <div class="flex min-h-96">
+        <div class="flex flex-col items-start p-6">
+            <div class="relative rounded bg-white p-6">
+                <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
+                    <img src="/images/icon-brand-recognition.svg" alt="Brand recognition icon" />
+                </div>
+                <h3 class="mt-4 text-left text-2xl font-bold">Brand Recognition</h3>
+                <p class="mt-2 text-left text-grayish-violet">Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.</p>
+            </div>            
         </div>
-        <div class="flex flex-col items-center">
-            <img src="/images/icon-detailed-records.svg" alt="Detailed records icon" />
-            <h3 class="mt-4 text-2xl font-bold">Detailed Records</h3>
-            <p class="mt-2 text-center text-grayish-violet">Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions.</p>
+        <div class="flex flex-col items-start p-6">
+            <div class="h-12 w-full"></div>
+            <div class="relative rounded bg-white p-6">
+                <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
+                    <img src="/images/icon-detailed-records.svg" alt="Detailed records icon" />
+                </div>
+                <h3 class="mt-4 text-left text-2xl font-bold">Detailed Records</h3>
+                <p class="mt-2 text-left text-grayish-violet">Gain insights into who is clicking your links. Knowing when and where people engage with your content helps inform better decisions.</p>
+            </div>
         </div>
-        <div class="flex flex-col items-center">
-            <img src="/images/icon-fully-customizable.svg" alt="Fully customizable icon" />
-            <h3 class="mt-4 text-2xl font-bold">Fully Customizable</h3>
-            <p class="mt-2 text-center text-grayish-violet">Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.</p>
+        <div class="flex flex-col items-start p-6">
+            <div class="h-24 w-full"></div>
+            <div class="relative rounded bg-white p-6">
+                <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
+                    <img src="/images/icon-fully-customizable.svg" alt="Fully customizable icon" />
+                </div>
+                <h3 class="mt-4 text-left text-2xl font-bold">Fully Customizable</h3>
+                <p class="mt-2 text-left text-grayish-violet">Improve brand awareness and content discoverability through customizable links, supercharging audience engagement.</p>
+            </div>
         </div>
+    </div>
+</section>
+<section>
+    <div class="-z-10 absolute left-0 h-72 w-screen overflow-x-hidden bg-dark-violet bg-cover bg-no-repeat md:bg-boost-desktop-texture sm:bg-boost-mobile-texture"></div>
+    <div class="bottom-0 m-0 flex h-72 flex-col items-center justify-center text-white">
+        <h2 class="text-4xl font-bold">Boost your links today</h2>
+        <a href="/signup" class="mt-4 rounded-full bg-cyan px-6 py-3 text-white hover:bg-slate-900">Get Started</a>
     </div>
 </section>
 <ToastContainer />
