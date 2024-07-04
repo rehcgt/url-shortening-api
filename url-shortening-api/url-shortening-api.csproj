@@ -64,7 +64,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="docs\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PublishUrl>docs</PublishUrl>
+  </PropertyGroup>
 
 </Project>
