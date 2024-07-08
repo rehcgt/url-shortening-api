@@ -22,7 +22,7 @@
 </navbar>
 <section class="mb-[72px] flex">
     <div class="h-[500px] flex flex-col items-center justify-center">
-        <h1 class="text-center text-5xl font-bold">More than just shorter links</h1>
+        <h1 class="text-center text-5xl font-bold" tabindex="-1">More than just shorter links</h1>
         <p class="mt-4 text-center text-grayish-violet">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
         <a href="/signup" class="mt-8 rounded-full bg-cyan px-6 py-3 text-white hover:bg-slate-900">Get Started</a>
     </div>
@@ -33,7 +33,7 @@
 <section class="flex flex-col">
     <div class="-z-10 absolute left-0 h-full w-screen overflow-x-hidden bg-shorten-urls"></div>
     <div class="z-10 -mt-[72px] flex w-full rounded-xl bg-dark-violet bg-cover bg-no-repeat p-12 md:bg-shorten-desktop-pattern sm:bg-shorten-mobile-pattern">
-        <input type="url" placeholder="Shorten a link here..." class="mx-4 flex-grow rounded px-4" @bind="@urlToShorten" autofocus />
+        <input type="url" placeholder="Shorten a link here..." class="mx-4 flex-grow rounded px-4" @bind="@urlToShorten" @ref="urlInput" />
         <button type="submit" class="ml-auto rounded-xl bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="ShortenLink">Shorten It!</button>
     </div>
     <div class="z-10 mb-4 mt-4">
@@ -97,6 +97,7 @@
 
 @code {
     private string urlToShorten = string.Empty;
+    private ElementReference urlInput;
     private List<shortUrls> shortenedUrls = new List<shortUrls>();
 
     private async Task ShortenLink()
@@ -155,5 +156,13 @@
     {
         await ClipboardService.WriteTextAsync(url);
         shortenedUrls[index].buttonText = "Copied!";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await urlInput.FocusAsync(preventScroll: true);
+        }
     }
 }
