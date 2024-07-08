@@ -8,19 +8,38 @@
 @inject HttpClient Http
 @inject IToastService ToastService;
 
-<navbar class="flex justify-between">
-    <h2 class="mr-5 text-3xl font-bold">Shortly</h2>
-    <nav class="ml-4 flex items-center font-bold m:w-[400px]">
-        <a href="/shorten" class="mr-4 text-grayish-violet hover:text-slate-900">Features</a>
-        <a href="/pricing" class="mr-4 text-grayish-violet hover:text-slate-900">Pricing</a>
-        <a href="/resources" class="text-grayish-violet hover:text-slate-900">Resources</a>
-    </nav>
-    <div class="ml-auto font-bold">
-        <a href="/login" class="text-grayish-violet hover:text-black">Login</a>
-        <a href="/signup" class="ml-4 rounded-full bg-grayish-violet px-4 py-2 text-white hover:bg-slate-900">Sign Up</a>
+<nav class="z-20 start-0 top-0 w-full bg-white">
+    <div class="mx-auto flex max-w-full flex-wrap items-center p-4">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <h2 class="mr-5 text-3xl font-bold">Shortly</h2>
+        </a>
+        <div class="flex flex-grow justify-end space-x-3 rtl:space-x-reverse md:justify-between md:flex-grow-0 md:min-w-fit md:w-[150px] md:order-2 md:space-x-0">
+            <button type="button" class="text-grayish-violet hover:text-black">Login</button>
+            <button type="button" class="rounded-full bg-grayish-violet px-4 py-2 text-white hover:bg-slate-900">Signup</button>
+            <button type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 md:hidden dark:hover:bg-gray-700 dark:focus:ring-gray-600" @onclick="ToggleMenu">
+                <span class="sr-only">Open main menu</span>
+                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+        </div>
+        <div class="h-full w-full flex-grow items-start justify-between justify-items-center md:flex md:w-auto md:order-1 @menuDisplay" id="navbar">
+            <ul class="mt-4 flex w-full flex-col items-center rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium rtl:space-x-reverse md:items-start md:p-0 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-white">
+                <li>
+                    <a href="#" class="mr-4 text-grayish-violet hover:text-slate-900">Features</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 text-grayish-violet hover:text-slate-900">Pricing</a>
+                </li>
+                <li>
+                    <a href="#" class="text-grayish-violet hover:text-slate-900">Resources</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</navbar>
-<section class="mb-[72px] flex">
+</nav>
+
+<section class="mb-[72px] flex flex-col-reverse md:flex-row">
     <div class="h-[500px] flex flex-col items-center justify-center">
         <h1 class="text-center text-5xl font-bold" tabindex="-1">More than just shorter links</h1>
         <p class="mt-4 text-center text-grayish-violet">Build your brand’s recognition and get detailed insights on how your links are performing.</p>
@@ -43,7 +62,7 @@
                 <div class="flex-grow"><a href="@url.Url" target="_blank">@url.Url</a></div>
                 <div class="ml-auto">
                     <a class="mr-4 text-cyan" href="@url.shortUrl" target="_blank">@url.shortUrl</a>
-                    <button class="ml-auto rounded bg-cyan px-6 py-3 text-white hover:bg-slate-900" @onclick="() => CopyUrl(url.shortUrl, url.Id)">
+                    <button class="ml-auto rounded px-6 py-3 text-white hover:bg-slate-900 @url.additionalButtonClass" @onclick="() => CopyUrl(url.shortUrl, url.Id)" disabled="@url.isDisabled">
                         @url.buttonText
                     </button>
                 </div>
@@ -54,7 +73,7 @@
         <h2 class="text-4xl font-bold">Advanced Statistics</h2>
         <p class="mt-4 text-center text-grayish-violet">Track how your links are performing across the web with our advanced statistics dashboard.</p>
     </div>
-    <div class="flex min-h-96">
+    <div class="flex min-h-96 flex-col md:flex-row">
         <div class="flex flex-col items-start p-6">
             <div class="relative rounded bg-white p-6">
                 <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
@@ -62,10 +81,10 @@
                 </div>
                 <h3 class="mt-4 text-left text-2xl font-bold">Brand Recognition</h3>
                 <p class="mt-2 text-left text-grayish-violet">Boost your brand recognition with each click. Generic links don’t mean a thing. Branded links help instil confidence in your content.</p>
-            </div>            
+            </div>
         </div>
         <div class="flex flex-col items-start p-6">
-            <div class="h-12 w-full"></div>
+            <div class="hidden h-12 w-full md:inline-block"></div>
             <div class="relative rounded bg-white p-6">
                 <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
                     <img src="/images/icon-detailed-records.svg" alt="Detailed records icon" />
@@ -75,7 +94,7 @@
             </div>
         </div>
         <div class="flex flex-col items-start p-6">
-            <div class="h-24 w-full"></div>
+            <div class="hidden h-24 w-full md:inline-block"></div>
             <div class="relative rounded bg-white p-6">
                 <div class="absolute -top-8 w-16 rounded-full bg-dark-violet p-4">
                     <img src="/images/icon-fully-customizable.svg" alt="Fully customizable icon" />
@@ -99,6 +118,13 @@
     private string urlToShorten = string.Empty;
     private ElementReference urlInput;
     private List<shortUrls> shortenedUrls = new List<shortUrls>();
+    private bool isMenuOpen = false;
+    private string menuDisplay => isMenuOpen ? "flex" : "hidden";
+
+    private void ToggleMenu()
+    {
+        isMenuOpen = !isMenuOpen;
+    }
 
     private async Task ShortenLink()
     {
@@ -152,10 +178,17 @@
         }
     }
 
+
     private async Task CopyUrl(string url, int index)
     {
-        await ClipboardService.WriteTextAsync(url);
+        shortenedUrls[index].isDisabled = true;
         shortenedUrls[index].buttonText = "Copied!";
+        shortenedUrls[index].additionalButtonClass = "bg-slate-900";
+        await ClipboardService.WriteTextAsync(url);
+        await Task.Delay(5000);
+        shortenedUrls[index].buttonText = "Copy";
+        shortenedUrls[index].additionalButtonClass = "bg-cyan";
+        shortenedUrls[index].isDisabled = false;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
